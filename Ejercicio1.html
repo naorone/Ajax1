@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <script>
+        window.onload=inicio;
+        let http;
+        function inicio()
+        {
+            document.getElementById("formulario").addEventListener("submit",ajax);
+
+        }
+
+        function getFile()
+        {
+           return document.getElementById("text").value;
+        }
+
+        function ajax(event)
+        {
+
+            event.preventDefault();
+            let url ="./" + getFile();
+            http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.onreadystatechange= leer;
+            http.send();
+
+        }
+
+
+
+        function leer() {
+
+            if (http.readyState === 4) {
+                // Se ha recibido la respuesta.
+                if (http.status === 200) {
+                    // Aquí escribiremos lo que queremos que
+                    // se ejecute tras recibir la respuesta
+                    let datosDoc = http.responseText;
+                    document.getElementById("parrafo").textContent=datosDoc;
+
+                } else {
+                    // Ha ocurrido un error
+                    alert(
+                        "Error:" + http.statusText);
+                }
+            }
+        }
+
+
+    </script>
+
+
+</head>
+<body>
+
+    <form id="formulario">
+        <input id="text" type="text">
+        <input type="submit" value="enviar">
+    </form>
+    <p id="parrafo"></p>
+
+
+
+
+</body>
+</html>
